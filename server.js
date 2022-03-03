@@ -58,6 +58,22 @@ app.post('/books', async (request, response, next) => {
       }
 });
 
+app.put('/books/:id', putBooks);
+
+async function putBooks(request,response,next){
+  const id = request.params.id;
+  // const email = request.query.email;
+  try {
+    let updatedBook = await Book.findByIdAndUpdate(id, request.body, { new: true, overwrite: true });
+    response.status(200).send(updatedBook);
+    // response.status(200).send(updatedBookData);
+
+  } catch {
+    console.log('Could not update book')
+  }
+
+ }
+
 app.delete('/books/:id', async (request, response) => {
   const id = request.params.id;
   const email = request.query.email;
